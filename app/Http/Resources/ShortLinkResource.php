@@ -19,6 +19,7 @@ class ShortLinkResource extends JsonResource
         return [
             'id' => $this->id,
             'short_link' => $this->short_link,
+            'full_short_link' => url($this->short_link),
             'redirect_link' => $this->redirect_link,
             'commercial' => $this->commercial,
             'statistic_link' => url('/stat/' . $this->statistic_link),

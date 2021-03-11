@@ -15,7 +15,14 @@ class LinkController extends Controller
 
     public function redirect(Request $request, string $request_link)
     {
-        $link = ShortLink::query()->where('short_link', $request_link)->firstOrFail();
+        $link = ShortLink::query()->where('short_link', $request_link)
+            ->firstOrFail();
+
+        if ($link->end_time < now()) {
+            return response([
+                'error' => "Ссылка устарела"
+            ], 410);
+        }
 
         $link_visit = new LinkVisit;
         $link_visit->client_ip = $request->ip();
@@ -66,7 +73,7 @@ class LinkController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,7 +84,7 @@ class LinkController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -88,8 +95,8 @@ class LinkController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -100,7 +107,7 @@ class LinkController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
