@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use App\Http\Controllers\AdsController;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class ShortLinkResource extends JsonResource
 {
@@ -23,10 +22,7 @@ class ShortLinkResource extends JsonResource
             'redirect_link' => $this->redirect_link,
             'commercial' => $this->commercial,
             'statistic_link' => url('/stat/' . $this->statistic_link),
-            'ad_url' => $this->when($this->commercial, function () {
-                $files = Storage::disk('public')->allFiles('ads');
-                return url('storage/' . $files[rand(0, count($files) - 1)]);
-            })
+            'ad_url' => $this->ad_url ?? null
         ];
     }
 }

@@ -19,7 +19,9 @@ Route::get('/ping', function (Request $request) {
     return $request->session()->token();
 });
 
+Route::get('/stat', [LinkController::class, 'index']);
 Route::get('/{request_link}', [LinkController::class, 'redirect']);
+Route::get('/stat/{statistic_link}', [LinkController::class, 'show']);
 Route::post('/short_links', [LinkController::class, 'store']);
 
 
